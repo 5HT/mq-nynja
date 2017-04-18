@@ -53,7 +53,8 @@ Configuration: [{emq_dashboard,
 Applications:  [public_key,kernel,stdlib,gproc,lager_syslog,pbkdf2,gen_logger,
                 mnesia,compiler,inets,crypto,syntax_tools,xmerl,esockd,
                 goldrush,ssl,lager,mochiweb,kvs,mad,sh,syslog,emqttd]
-Erlang/OTP 19 [erts-8.2] [source] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:false] [dtrace]
+Erlang/OTP 19 [erts-8.2] [source] [64-bit] [smp:4:4] [async-threads:10]
+              [hipe] [kernel-poll:false] [dtrace]
 
 Eshell V8.2  (abort with ^G)
 1> 20:13:51.475 [info] Application lager started on node nonode@nohost
