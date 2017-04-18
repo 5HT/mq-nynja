@@ -103,7 +103,6 @@ plugin(CfgFile) ->
     AppName = app_name(CfgFile),
     %{ok, Attrs} = application:get_all_key(AppName),
     {_,_,Attrs} = mad_repl:load_config(AppName),
-    io:format("PLUGIN : ~p",[{AppName,Attrs}]),
     Ver = proplists:get_value(vsn, Attrs, "0"),
     Descr = proplists:get_value(description, Attrs, ""),
     #mqtt_plugin{name = AppName, version = Ver, descr = Descr}.
