@@ -82,36 +82,7 @@ emqttd mod supervisor is starting...[ok]
 emqttd bridge supervisor is starting...[ok]
 emqttd access control is starting...[ok]
 emqttd system monitor is starting...[ok]
-PLUGIN : {emq_auth_username,
-             [{description,"Authentication with Username/Password"},
-              {vsn,"2.1.1"},
-              {id,"v2.1.1-dirty"},
-              {modules,[emq_auth_username,emq_auth_username_app]},
-              {registered,[emq_auth_username_sup]},
-              {applications,[kernel,stdlib]},
-              {mod,{emq_auth_username_app,[]}}]}PLUGIN : {emq_dashboard,[{description,"EMQ Web Dashboard"},
-                         {vsn,"2.1.1"},
-                         {modules,[emq_auth_dashboard,emq_dashboard,
-                                   emq_dashboard_admin,emq_dashboard_alarm,
-                                   emq_dashboard_app,emq_dashboard_cli,
-                                   emq_dashboard_client,
-                                   emq_dashboard_overview,
-                                   emq_dashboard_plugin,emq_dashboard_route,
-                                   emq_dashboard_session,
-                                   emq_dashboard_subscription,
-                                   emq_dashboard_sup,emq_dashboard_topic,
-                                   emq_dashboard_user]},
-                         {registered,[emq_dashboard_sup]},
-                         {applications,[kernel,stdlib,mnesia]},
-                         {mod,{emq_dashboard_app,[]}}]}PLUGIN : {emq_modules,[{description,"EMQ Modules"},
-                       {vsn,"2.1.1"},
-                       {id,"v2.1.1-dirty"},
-                       {modules,[emq_mod_presence,emq_mod_rewrite,
-                                 emq_mod_subscription,emq_modules_app,
-                                 emq_modules_sup]},
-                       {registered,[emq_modules_sup]},
-                       {applications,[kernel,stdlib]},
-                       {mod,{emq_modules_app,[]}}]}Plugins: [{mqtt_plugin,emq_auth_username,"2.1.1",
+Plugins: [{mqtt_plugin,emq_auth_username,"2.1.1",
                        "Authentication with Username/Password",false},
           {mqtt_plugin,emq_dashboard,"2.1.1","EMQ Web Dashboard",false},
           {mqtt_plugin,emq_modules,"2.1.1","EMQ Modules",false}]
@@ -125,6 +96,8 @@ mqtt:ws listen on 0.0.0.0:8083 with 4 acceptors.
 emqttd 2.1.1 is running now
 20:13:53.804 [info] Application emqttd started on node nonode@nohost
 ```
+
+Open http://127.0.0.1:18083/#/websocket, Press Connect, Subscribe, Sned and observe statistics http://127.0.0.1:18083/#/overview.
 
 Credits
 -------
