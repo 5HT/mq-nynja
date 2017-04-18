@@ -1,1 +1,1 @@
-[kernel,stdlib,gproc,lager_syslog,pbkdf2,asn1,gen_logger,mnesia,compiler,inets,crypto,syntax_tools,xmerl,esockd,goldrush,public_key,lager,ssl,mochiweb,emqttd,mad,sh,syslog]
+[kernel,stdlib,gproc,lager_syslog,pbkdf2,asn1,gen_logger,mnesia,compiler,inets,crypto,syntax_tools,xmerl,esockd,goldrush,public_key,lager,ssl,kvs,mochiweb,emqttd,syslog]
