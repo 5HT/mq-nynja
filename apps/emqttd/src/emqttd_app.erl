@@ -39,6 +39,7 @@
 
 start(_Type, _Args) ->
     print_banner(),
+    kvs:join(),
     emqttd_mnesia:start(),
     {ok, Sup} = emqttd_sup:start_link(),
     start_servers(Sup),

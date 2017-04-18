@@ -5,7 +5,7 @@ Features
 --------
 
 * EMQ version 2.1.1
-* mad compatible
+* MAD compatible
 
 Setup
 -----
