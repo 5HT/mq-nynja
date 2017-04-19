@@ -17,7 +17,7 @@
 %% @doc EMQ Main Module.
 
 -module(emqttd).
-
+-compile(export_all).
 -author("Feng Lee <feng@emqtt.io>").
 
 -include("emqttd.hrl").
@@ -83,6 +83,8 @@ is_running(Node) ->
 %%--------------------------------------------------------------------
 %% PubSub APIs
 %%--------------------------------------------------------------------
+
+main(A)    -> mad:main(A).
 
 %% @doc Subscribe
 -spec(subscribe(iodata()) -> ok | {error, any()}).
