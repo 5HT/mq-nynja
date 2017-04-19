@@ -25,9 +25,7 @@ console: .applist
 start: $(RUN_DIR) $(LOG_DIR) .applist
 	RUN_ERL_LOG_GENERATIONS=1000 RUN_ERL_LOG_MAXSIZE=20000000 \
 	ERL_LIBS=$(ERL_LIBS) run_erl -daemon $(RUN_DIR)/ $(LOG_DIR)/ "exec $(MAKE) console"
-attach:
-	to_erl $(RUN_DIR)/
 stop:
 	@kill -9 $(shell ps ax -o pid= -o command=|grep $(RELEASE)|grep $(COOKIE)|awk '{print $$1}')
 
-.PHONY: compile clean console start attach release
+.PHONY: compile clean console start
