@@ -136,6 +136,7 @@ check(#mqtt_client{username = Username}, Password, _Opts) ->
         [] ->
             {error, username_not_found};
         [#?AUTH_USERNAME_TAB{password = <<Salt:4/binary, Hash/binary>>}] ->
+            io:format("~p : ~p",[Hash,md5_hash(Salt, Password)]),
             case Hash =:= md5_hash(Salt, Password) of
                 true -> ok;
                 false -> {error, password_error}

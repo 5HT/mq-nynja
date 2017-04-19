@@ -16,7 +16,7 @@
 
 %% @doc Web dashboard admin authentication with username and password.
 -module(emq_dashboard_admin).
-
+-compile(export_all).
 -behaviour(gen_server).
 
 -include("emq_dashboard.hrl").
@@ -129,7 +129,6 @@ check(Username, Password) ->
 
 init([]) ->
     % Create mqtt_admin table
-    % kvs:join(),
     ok = emqttd_mnesia:create_table(mqtt_admin, [
                 {type, set},
                 {local_content, true}, %% local_content to avoid blocking on mnesia:wait_for_tables/2

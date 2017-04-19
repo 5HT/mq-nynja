@@ -1,3 +1,4 @@
 emq_dashboard.
 emq_modules.
 emq_persistence.
+emq_auth_username.
