@@ -90,7 +90,7 @@ match_regx(Topic, MP, Dest) ->
 
 compile(Rules) ->
     lists:map(fun({rewrite, Topic, Re, Dest}) ->
-                  {ok, MP} = re:compile(Re),
-                  {rewrite, Topic, MP, Dest}
+                  {ok, MP} = re:compile(iolist_to_binary(Re)),
+                  {rewrite, iolist_to_binary(Topic), MP, iolist_to_binary(Dest)}
               end, Rules).
 
