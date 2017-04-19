@@ -119,6 +119,20 @@ $ mad release emqttd
 $ ./emqttd rep
 ```
 
+Control Panel
+-------------
+
+```
+> emqttd_ctl:run(["plugins","list"]).
+Plugin(emq_auth_username, version=2.1.1, description=Authentication, active=false)
+Plugin(emq_dashboard, version=2.1.1, description=EMQ Web Dashboard, active=true)
+Plugin(emq_modules, version=2.1.1, description=EMQ Modules, active=true)
+Plugin(emq_persistence, version=1.1.2, description=Synrc KVS for MQTT, active=true)
+ok
+
+> emqttd_ctl:run(["help"]).
+```
+
 Credits
 -------
 
