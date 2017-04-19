@@ -111,6 +111,14 @@ Then enable `emq_auth_username` plugin in the dashboard http://127.0.0.1:18083/#
 Later you can connect specifying `User Name:` and `Password:` credentials
 at http://127.0.0.1:18083/#/websocket
 
+Creating Single File Bundle
+---------------------------
+
+```
+$ mad release emqttd
+$ ./emqttd rep
+```
+
 Credits
 -------
 
