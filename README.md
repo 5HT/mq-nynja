@@ -100,15 +100,16 @@ emqttd 2.1.1 is running now
 
 Open http://127.0.0.1:18083/#/websocket with `admin:public` credentials, Press Connect, Subscribe, Sned and observe statistics http://127.0.0.1:18083/#/overview.
 
-Adding Users
-------------
+Create Authorized User
+----------------------
 
 ```
 > emq_auth_username:cli(["add","maxim","public"]).
 ```
 
 Then enable `emq_auth_username` plugin in the dashboard http://127.0.0.1:18083/#/plugins
-Later you can connect specifying `User Name:` and `Password:` credential at http://127.0.0.1:18083/#/websocket
+Later you can connect specifying `User Name:` and `Password:` credentials
+at http://127.0.0.1:18083/#/websocket
 
 Credits
 -------
@@ -116,5 +117,3 @@ Credits
 * Maxim Sokhatsky
 
 OM A HUM
-
-
