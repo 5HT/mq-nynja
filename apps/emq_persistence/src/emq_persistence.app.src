@@ -1,0 +1,13 @@
+{application, emq_persistence,
+ [
+  {description, "Synrc KVS for MQTT"},
+  {vsn, "1.1.2"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  kvs
+                 ]},
+  {mod, { emq_persistence_app, []}},
+  {env, []}
+ ]}.

@@ -1,6 +1,6 @@
 VM       := vm.args
 SYS      := sys.config
-PLT_NAME := ~/.n2o_dialyzer.plt
+PLT_NAME := ~/.mq_dialyzer.plt
 ERL_ARGS := -args_file $(VM) -config $(SYS)
 RUN_DIR  ?= .
 LOG_DIR  ?= ./log
@@ -39,11 +39,5 @@ stop:
 $(PLT_NAME):
 	$(eval APPS := $(subst deps/,,$(subst apps/,,$(shell find apps deps -maxdepth 1 -mindepth 1 -type d))))
 	ERL_LIBS=$(ERL_LIBS) dialyzer --build_plt --output_plt $(PLT_NAME) --apps $(APPS) || true
-tar: release
-	tar zcvf $(RELEASE)-$(VSN)-$(DATE).tar.gz _rel/lib/*/ebin _rel/lib/*/priv _rel/bin _rel/releases
-eunit:
-	rebar eunit skip_deps=true
-ct:
-	rebar ct skip_deps=true verbose=1
 
-.PHONY: compile clean console start attach release update-deps dialyze ct eunit tar
+.PHONY: compile clean console start attach release dialyze
