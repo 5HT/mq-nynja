@@ -98,7 +98,7 @@ emqttd 2.1.1 is running now
 20:13:53.804 [info] Application emqttd started on node nonode@nohost
 ```
 
-Open http://127.0.0.1:18083/#/websocket, Press Connect, Subscribe, Sned and observe statistics http://127.0.0.1:18083/#/overview.
+Open http://127.0.0.1:18083/#/websocket with `admin:public` credentials, Press Connect, Subscribe, Sned and observe statistics http://127.0.0.1:18083/#/overview.
 
 Credits
 -------
