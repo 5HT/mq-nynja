@@ -130,6 +130,10 @@ Plugin(emq_modules, version=2.1.1, description=EMQ Modules, active=true)
 Plugin(emq_persistence, version=1.1.2, description=Synrc KVS for MQTT, active=true)
 ok
 
+> emqttd_ctl:run(["clients","list"]).
+Client(C_1492632081463, clean_sess=true, username=5HT, peername=127.0.0.1:58225, connected_at=1492632082)
+ok
+
 > emqttd_ctl:run(["help"]).
 ```
 
