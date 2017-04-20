@@ -17,6 +17,7 @@
 %% @doc MQTT/TCP Connection.
 
 -module(emqttd_client).
+-compile({parse_transform, lager_transform}).
 
 -behaviour(gen_server2).
 
