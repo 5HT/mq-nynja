@@ -138,6 +138,29 @@ ok
 > emqttd_ctl:run(["help"]).
 ```
 
+MQTT Erlang Client
+------------------
+
+```
+$ mad com
+==> "/Users/maxim/depot/voxoz/emqttc/examples/gen_server"
+Compiling /src/gen_server_example.erl
+Writing /ebin/gen_server_example.app
+OK
+bash-3.2$ ./run
+Erlang/OTP 19 [erts-8.2] [source] [64-bit] [smp:4:4]
+              [async-threads:10] [hipe] [kernel-poll:false] [dtrace]
+
+Eshell V8.2  (abort with ^G)
+1> [info] [Client <0.58.0>]: connecting to 127.0.0.1:1883
+[info] [Client <0.58.0>] connected with 127.0.0.1:1883
+[info] [Client <0.58.0>] RECV: CONNACK_ACCEPT
+Client <0.58.0> is connected
+[warning] [simpleClient@127.0.0.1:64618] resubscribe [{<<"TopicA">>,1}]
+Message from TopicA: <<"hello...1">>
+Message from TopicB: <<"hello...1">>
+```
+
 Credits
 -------
 
