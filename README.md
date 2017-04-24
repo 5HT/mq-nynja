@@ -6,10 +6,6 @@ Features
 
 * EMQ version 2.1.1
 * MAD compatible
-* Plugins Included
-* Aerospike Backend
-* Billing Backend
-* 
 
 Setup
 -----
