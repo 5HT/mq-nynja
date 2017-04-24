@@ -6,6 +6,10 @@ Features
 
 * EMQ version 2.1.1
 * MAD compatible
+* Plugins Included
+* Aerospike Backend
+* Billing Backend
+* 
 
 Setup
 -----
@@ -83,8 +87,7 @@ emqttd mod supervisor is starting...[ok]
 emqttd bridge supervisor is starting...[ok]
 emqttd access control is starting...[ok]
 emqttd system monitor is starting...[ok]
-Plugins: [{mqtt_plugin,emq_auth_username,"2.1.1",
-                       "Authentication with Username/Password",false},
+Plugins: [{mqtt_plugin,emq_auth_username,"2.1.1", "Authentication with Username/Password",false},
           {mqtt_plugin,emq_dashboard,"2.1.1","EMQ Web Dashboard",false},
           {mqtt_plugin,emq_modules,"2.1.1","EMQ Modules",false}]
 Names: [emq_dashboard]
