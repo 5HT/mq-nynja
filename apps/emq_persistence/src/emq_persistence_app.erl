@@ -4,7 +4,7 @@
 
 start(_StartType, _StartArgs) ->
     {ok, Sup} = emq_persistence_sup:start_link(),
-%    emq_kvs_bridge:load(application:get_all_env()),
+    emq_kvs_bridge:load([]),
     {ok, Sup}.
 
 stop(_State) ->

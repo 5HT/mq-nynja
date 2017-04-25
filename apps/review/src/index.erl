@@ -15,8 +15,8 @@ dev()  -> [ [ #script{src=lists:concat(["/n2o/protocols/",X,".js"])} || X <- [be
 
 redirect_wait() -> #dtl{}.
 list() -> "<iframe src=http://synrc.com/apps/"++code()++" frameborder=0 width=700 height=1250></iframe>".
-code() -> case wf:q(<<"code">>) of undefined  -> "../privacy.htm";
-                                    Code -> wf:to_list(wf:depickle(Code)) end.
+code() -> case wf:q(<<"room">>) of undefined  -> "../privacy.htm";
+                                    Code -> wf:to_list(Code) end.
 
 body() ->
     wf:update(heading,#b{id=heading,body="Review: " ++ code()}),
@@ -28,6 +28,7 @@ event(init) ->
     wf:update(upload,#upload{id=upload}),
     wf:reg(n2o_session:session_id()),
     wf:reg({topic,Room}),
+    wf:info(?MODULE,"Room: ~p~n",[Room]),
     Res = wf:async("looper",fun index:loop/1),
     n2o_async:send("looper","waterline"),
     wf:info(?MODULE,"Async Process Created: ~p at Page Pid ~p~n",[Res,self()]),

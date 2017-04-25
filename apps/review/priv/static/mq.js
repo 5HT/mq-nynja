@@ -1,4 +1,5 @@
-var mqtt = new Paho.MQTT.Client("127.0.0.1", 8083, "N2O_" + parseInt(Math.random() * 100, 10));
+var sessionId = parseInt(Math.random() * 100, 10);
+var mqtt = new Paho.MQTT.Client("127.0.0.1", 8083, "N2O_" + sessionId);
 
 mqtt.onConnectionLost = function (o) { console.log("connection lost: " + o.errorMessage); };
 mqtt.onMessageArrived = function (m) { console.log('name: ' + m.destinationName + ', payload: ' + m.payloadString); };
@@ -17,3 +18,4 @@ var publish = function (payload, topic, qos) {
 }
 
 mqtt.connect(options);
+

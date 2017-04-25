@@ -13,7 +13,7 @@ log_modules() -> % any
 %    n2o_static,
     n2o_stream,
     n2o_nitrogen,
-    n2o_session,
+%    n2o_session,
     doc,
     kvs,
     store_mnesia,
