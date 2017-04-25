@@ -16,6 +16,7 @@ stop(_)    -> ok.
 init([]) -> users:init(),
             users:populate(?USERS),
             kvs:join(),
+            application:set_env(n2o,session,n2o_session),
             {ok, {{one_for_one, 5, 10}, [spec()]}}.
 
 spec()   -> ranch:child_spec(http, 100, ranch_tcp, port(), cowboy_protocol, env()).
