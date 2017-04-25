@@ -1,12 +1,12 @@
 -module(emq_kvs_bridge).
 -include_lib("emqttd/include/emqttd.hrl").
+-include_lib("n2o/include/wf.hrl").
 -export([load/1, unload/0]).
 -export([on_client_connected/3, on_client_disconnected/3]).
 -export([on_client_subscribe/4, on_client_unsubscribe/4]).
 -export([on_session_created/3, on_session_subscribed/4, on_session_unsubscribed/4, on_session_terminated/4]).
 -export([on_message_publish/2, on_message_delivered/4, on_message_acked/4]).
 
-%% Called when the plugin application start
 load(Env) ->
     emqttd:hook('client.connected', fun ?MODULE:on_client_connected/3, [Env]),
     emqttd:hook('client.disconnected', fun ?MODULE:on_client_disconnected/3, [Env]),
@@ -30,6 +30,15 @@ on_client_disconnected(Reason, _Client = #mqtt_client{client_id = ClientId}, _En
 
 on_client_subscribe(ClientId, Username, TopicTable, _Env) ->
     io:format("client(~s/~s) will subscribe: ~p~n", [Username, ClientId, TopicTable]),
+    Name = binary_to_list(ClientId),
+    n2o_cx:context(#cx{module=index,formatter=bert,params=[]}),
+    case n2o_nitrogen:info({init,<<>>},[],?CTX) of
+         {reply, {binary, M}, _, #cx{}} ->
+             Msg = emqttd_message:make(Name, 0, Name, M),
+             io:format("N2O ~p Message: ~p Pid: ~p~n",[ClientId, [], self()]),
+             self() ! {deliver, Msg},
+             ok;
+         _ -> skip end,
     {ok, TopicTable}.
 
 on_client_unsubscribe(ClientId, Username, TopicTable, _Env) ->
@@ -50,23 +59,31 @@ on_session_unsubscribed(ClientId, Username, {Topic, Opts}, _Env) ->
 on_session_terminated(ClientId, Username, Reason, _Env) ->
     io:format("session(~s/~s) terminated: ~p.", [ClientId, Username, Reason]).
 
-%% transform message and return
 on_message_publish(Message = #mqtt_message{topic = <<"$SYS/", _/binary>>}, _Env) ->
     {ok, Message};
 
-on_message_publish(Message, _Env) ->
-    io:format("publish ~s~n", [emqttd_message:format(Message)]),
+on_message_publish(Message = #mqtt_message{topic = Topic, from = {ClientId,_}, payload = Payload}, _Env) ->
+    io:format("publish ~p~n", [Payload]),
+    Name = binary_to_list(ClientId),
+    case n2o_proto:info(binary_to_term(Payload),[],?CTX) of
+         {reply, {binary, M}, R, #cx{}} ->
+              case binary_to_term(M) of
+                   {io,_,_} -> Msg = emqttd_message:make(Name, 0, Name, M),
+                               io:format("IO ~p Message: ~p Pid: ~p~n",[ClientId, [], self()]),
+                               self() ! {deliver, Msg},
+                               ok;
+                          _ -> ok end;
+                          _ -> ok end,
     {ok, Message}.
 
 on_message_delivered(ClientId, Username, Message, _Env) ->
-    io:format("delivered to client(~s/~s): ~s~n", [Username, ClientId, emqttd_message:format(Message)]),
+    io:format("delivered to client(~p/~p): ~p~n", [Username, ClientId, Message]),
     {ok, Message}.
 
 on_message_acked(ClientId, Username, Message, _Env) ->
     io:format("client(~s/~s) acked: ~s~n", [Username, ClientId, emqttd_message:format(Message)]),
     {ok, Message}.
 
-%% Called when the plugin application stop
 unload() ->
     emqttd:unhook('client.connected', fun ?MODULE:on_client_connected/3),
     emqttd:unhook('client.disconnected', fun ?MODULE:on_client_disconnected/3),

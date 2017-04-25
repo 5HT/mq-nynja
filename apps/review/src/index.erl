@@ -15,7 +15,7 @@ dev()  -> [ [ #script{src=lists:concat(["/n2o/protocols/",X,".js"])} || X <- [be
 
 redirect_wait() -> #dtl{}.
 list() -> "<iframe src=http://synrc.com/apps/"++code()++" frameborder=0 width=700 height=1250></iframe>".
-code() -> case wf:q(<<"room">>) of undefined  -> "../privacy.htm";
+code() -> case wf:q(<<"room">>) of undefined  -> "n2o";
                                     Code -> wf:to_list(Code) end.
 
 body() ->
@@ -26,12 +26,6 @@ body() ->
 event(init) ->
     Room = code(),
     wf:update(upload,#upload{id=upload}),
-    wf:reg(n2o_session:session_id()),
-    wf:reg({topic,Room}),
-    wf:info(?MODULE,"Room: ~p~n",[Room]),
-    Res = wf:async("looper",fun index:loop/1),
-    n2o_async:send("looper","waterline"),
-    wf:info(?MODULE,"Async Process Created: ~p at Page Pid ~p~n",[Res,self()]),
     [ event({client,{E#entry.from,E#entry.media}}) || E <- kvs:entries(kvs:get(feed,{room,Room}),entry,10) ];
 
 event(logout) ->
@@ -44,14 +38,14 @@ event(chat) ->
     wf:info(?MODULE,"Chat pressed: ~p~n",[Message]),
     Room = code(),
     kvs:add(#entry{id=kvs:next_id("entry",1),from=wf:user(),feed_id={room,Room},media=Message}),
-    wf:send({topic,Room},#client{data={User,Message}});
+    event(#client{data={User,Message}});
 
 event(#client{data={User,Message}}) ->
-    wf:wire(#jq{target=message,method=[focus,select]}),
-    HTML = wf:to_list(Message),
-    wf:info(?MODULE,"HTML: ~tp~n",[HTML]),
-    DTL = #dtl{file="message",app=review,bindings=[{user,User},{color,"gray"},{message,HTML}]},
-    wf:insert_top(history, wf:jse(wf:render(DTL)));
+     wf:wire(#jq{target=message,method=[focus,select]}),
+     HTML = wf:to_list(Message),
+     wf:info(?MODULE,"HTML: ~tp~n",[HTML]),
+     DTL = #dtl{file="message",app=review,bindings=[{user,User},{color,"gray"},{message,HTML}]},
+     wf:insert_top(history, wf:jse(wf:render(DTL)));
 
 event(#bin{data=Data}) ->
     wf:info(?MODULE,"Binary Delivered ~p~n",[Data]),
@@ -67,8 +61,3 @@ event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
 event(Event) ->
     wf:info(?MODULE,"Event: ~p", [Event]),
     ok.
-
-loop(M) ->
-    DTL = #dtl{file="message",app=review,bindings=[{user,"system"},{message,M},{color,"silver"}]},
-    wf:insert_top(history, wf:jse(wf:render(DTL))),
-    wf:flush().
