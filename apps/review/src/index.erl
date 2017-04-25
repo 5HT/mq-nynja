@@ -38,9 +38,11 @@ event(chat) ->
     wf:info(?MODULE,"Chat pressed: ~p~n",[Message]),
     Room = code(),
     kvs:add(#entry{id=kvs:next_id("entry",1),from=wf:user(),feed_id={room,Room},media=Message}),
-    event(#client{data={User,Message}});
+    Msg = emqttd_message:make("n2o", 0, "n2o", term_to_binary(#client{data={User,Message}})),
+    self() ! {deliver, Msg};
 
 event(#client{data={User,Message}}) ->
+     wf:info(?MODULE,"Client Delivery: ~p~n",[Message]),
      wf:wire(#jq{target=message,method=[focus,select]}),
      HTML = wf:to_list(Message),
      wf:info(?MODULE,"HTML: ~tp~n",[HTML]),

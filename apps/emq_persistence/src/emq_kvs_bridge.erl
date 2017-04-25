@@ -64,6 +64,10 @@ on_message_publish(Message = #mqtt_message{topic = <<"$SYS/", _/binary>>}, _Env)
 
 on_message_publish(Message = #mqtt_message{topic = Topic, from = {ClientId,_}, payload = Payload}, _Env) ->
     io:format("publish ~p~n", [Payload]),
+    {ok, Message}.
+
+on_message_delivered(ClientId, Username, Message = #mqtt_message{topic = Topic, payload = Payload}, _Env) ->
+    io:format("delivered to client(~p): ~p~n", [Username, ClientId]),
     Name = binary_to_list(ClientId),
     case n2o_proto:info(binary_to_term(Payload),[],?CTX) of
          {reply, {binary, M}, R, #cx{}} ->
@@ -74,10 +78,6 @@ on_message_publish(Message = #mqtt_message{topic = Topic, from = {ClientId,_}, p
                                ok;
                           _ -> ok end;
                           _ -> ok end,
-    {ok, Message}.
-
-on_message_delivered(ClientId, Username, Message, _Env) ->
-    io:format("delivered to client(~p/~p): ~p~n", [Username, ClientId, Message]),
     {ok, Message}.
 
 on_message_acked(ClientId, Username, Message, _Env) ->
