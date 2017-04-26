@@ -24,7 +24,7 @@ is also abandoned as we can use `emqttd` API directly and `{deliver,_}` protocol
 What is added to N2O?
 ---------------------
 
-The one bad things about MQTT version is that we need to store now
+The one bad thing about MQTT version is that we need to store now
 both MQTT and BERT formatters on client.
 
 ```
@@ -34,6 +34,8 @@ both MQTT and BERT formatters on client.
 
 Which layers are removed from MQTT version of N2O?
 --------------------------------------------------
+
+This is a good part.
 
 * n2o_session
 * n2o_stream
