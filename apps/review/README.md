@@ -43,6 +43,11 @@ both MQTT and BERT formatters on client.
 <script src="/spa/mq.js"></script>
 ```
 
+Also IBM version of MQTT JavaScript library is far beyond the
+speed and byte magic of `bert.js` library provided by N2O.
+We packed BERT encoding inside MSS/MTU and so we see
+WS31 replacement as desired.
+
 Which layers are removed from MQTT version of N2O?
 --------------------------------------------------
 
@@ -59,14 +64,14 @@ This is a good part.
 
 NOTE: WebSockets are not the most capacitive transport, the
 MQTT-SN extension is able to work on UDP streams.
-MQTT can work only over TCP.
+MQTT can work only over TCP for raw speed.
 
 Key Things N2O is relying on
 ----------------------------
 
-N2O is working entirely in context of `ws_client` sessions of EMQ, just
-as it is working on top of `cowboy`. No other additional gen_servers are being
-introduced.
+N2O is working entirely in context of `ws_client` processes of EMQ, just
+as it is working on top of `ranch` processes of `cowboy`.
+No additional `gen_server` is being introduced.
 
 The only official transparent way with zero abstractions is to use EMQ hooks
 mechanism. For N2O we need to implement only two cases `client.subscribe` and
