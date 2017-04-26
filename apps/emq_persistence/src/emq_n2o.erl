@@ -38,7 +38,7 @@ on_client_subscribe(ClientId, Username, TopicTable, _Env) ->
     case n2o_nitrogen:info({init,<<>>},[],?CTX) of
          {reply, {binary, M}, _, #cx{}} ->
              Msg = emqttd_message:make(Name, 0, Name, M),
-             io:format("N2O ~p Message: ~p Pid: ~p~n",[ClientId, binary_to_term(M), self()]),
+             io:format("N2O ~p~n Message: ~p Pid: ~p~n",[ClientId, binary_to_term(M), self()]),
              self() ! {deliver, Msg};
          _ -> skip end,
     {ok, TopicTable}.
@@ -75,7 +75,7 @@ on_message_delivered(ClientId, Username, Message = #mqtt_message{topic = Topic, 
          {reply, {binary, M}, R, #cx{}} ->
               case binary_to_term(M) of
                    {io,X,_} -> Msg = emqttd_message:make(Name, 0, Name, M),
-                               io:format("IO ~p Message: ~p Pid: ~p~n",[ClientId, X, self()]),
+                               io:format("IO ~p~n Message: ~p Pid: ~p~n",[ClientId, X, self()]),
                                self() ! {deliver, Msg},
                                {ok, Message};
                           _ -> {ok, Message} end;
