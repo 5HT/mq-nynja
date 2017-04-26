@@ -3,6 +3,15 @@ MQTT Review Application
 
 Here is example of working N2O Review Application on top of MQTT EMQ broker.
 
+Motivation
+----------
+
+Prepare N2O protocol federation to commercial use on top of MQTT protocol.
+Minimize and remove all features, duplicated by MQTT pubsub broker.
+Provide EMQ extension that immediately introduce N2O protocol to MQTT traffic.
+Create snigle Erlang eco-system for Enterprise Protocol Federation and establish
+solid CORBA, WS, XMPP replacement, ready fo high-speed IoT applications.
+
 Run
 ---
 
@@ -10,8 +19,8 @@ After server is running you should enable `N2O over MQTT bridge` EMQ plugin
 on plugin page http://127.0.0.1:18083/#/plugins and then open application
 sample http://127.0.0.1:8000/spa/login.htm
 
-HEART, n2o_session, AUTH and MQ
--------------------------------
+PING, SESSION, AUTH and MQ layers of N2O
+----------------------------------------
 
 `N2O_start` and `n2o.js` is no longer used in MQTT version of N2O.
 Instead `N2O_start` one should use `MQTT_start` and `mqtt.js` for session control replacement.
@@ -37,14 +46,18 @@ Which layers are removed from MQTT version of N2O?
 
 This is a good part.
 
-* n2o_session
-* n2o_stream
-* n2o_heart
-* n2o_mq
-* n2o_query
-* N2O.js
-* ranch
-* cowboy
+* n2o_session — no Browser, so no Cookies are needed
+* n2o_stream — no XHR fallback needed
+* n2o_heart — no PING protocol needed
+* n2o_mq — `syn` and `gproc` are no longer neede
+* n2o_query — no Query Router 
+* N2O.js — no pinger
+* ranch — `esockd` instead
+* cowboy — `mochiweb` for WebSockets inside EMQ
+
+NOTE: WebSockets are not the most capacitive transport, the
+MQTT-SN extension is able to work on UDP streams.
+MQTT can work only over TCP.
 
 Key Things N2O is relying on
 ----------------------------
