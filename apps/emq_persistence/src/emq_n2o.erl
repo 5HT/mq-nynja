@@ -1,4 +1,4 @@
--module(emq_kvs_bridge).
+-module(emq_n2o).
 -include_lib("emqttd/include/emqttd.hrl").
 -include_lib("n2o/include/wf.hrl").
 -export([load/1, unload/0]).
