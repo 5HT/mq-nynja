@@ -4,9 +4,6 @@
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("n2o/include/wf.hrl").
 
-main() -> [].
-code() -> case get(topic) of undefined -> "lobby";
-                                  Code -> wf:to_list(Code) end.
 event(init) ->
     Room = code(),
     wf:update(logout,  #button { id=logout,  body="Logout "  ++ wf:user(),        postback=logout }),
@@ -15,10 +12,6 @@ event(init) ->
     wf:update(upload,  #upload { id=upload   }),
     [ event({client,{E#entry.from,E#entry.media}})
       || E <- kvs:entries(kvs:get(feed,{room,Room}),entry,10) ];
-
-event(logout) ->
-    wf:logout(),
-    wf:redirect("login.htm");
 
 event(chat) ->
     User = wf:user(),
@@ -45,6 +38,10 @@ event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     wf:render(#link{href=iolist_to_binary(["/spa/",Sid,"/",wf:url_encode(Name)]),body=Name})),
     event(chat);
 
-event(Event) ->
-    wf:info(?MODULE,"Event: ~p", [Event]),
-    ok.
+event(logout) -> wf:logout(), wf:redirect("login.htm");
+event(Event)  -> wf:info(?MODULE,"Event: ~p", [Event]).
+
+main() -> [].
+code() -> case get(topic) of undefined -> "lobby";
+                                  Code -> wf:to_list(Code) end.
+
