@@ -4,14 +4,10 @@
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("n2o/include/wf.hrl").
 
-main() -> #dtl{file="login",app=review,bindings=[{body,body()},{folders,folders()}]}.
-folders() -> string:join([filename:basename(F)||F<-filelib:wildcard(code:priv_dir(review)++"/snippets/*/")],",").
+main() -> [].
 
-body() ->
- [ #span   { id=display },                #br{},
-   #span   { body="Login: " },            #textbox{id=user,autofocus=true}, #br{},
-   #span   { body="Join/Create Feed: " }, #textbox{id=pass},
-   #button { id=loginButton, body="Login",postback=login,source=[user,pass]} ].
+event(init) ->
+    wf:update(loginButton, #button { id=loginButton, body="Login",postback=login,source=[user,pass]});
 
 event(login) ->
     User = case wf:q(user) of <<>> -> "anonymous";

@@ -4,29 +4,17 @@
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("n2o/include/wf.hrl").
 
-main() ->
-    case wf:user() of
-         undefined -> wf:redirect("login.htm"), redirect_wait();
-         _ -> #dtl{file = "index", app=review,bindings=[{body,body()},{list,list()},{javascript,(?MODULE:(wf:config(n2o,mode,dev)))()}]} end.
-
-prod() ->   [ #script{src="/static/review.min.js"} ].
-dev()  -> [ [ #script{src=lists:concat(["/n2o/protocols/",X,".js"])} || X <- [bert,nitrogen] ],
-            [ #script{src=lists:concat(["/n2o/",Y,".js"])}           || Y <- [bullet,n2o,ftp,utf8,validation] ] ].
-
-redirect_wait() -> #dtl{}.
-list() -> "<iframe src=http://synrc.com/apps/"++code()++" frameborder=0 width=700 height=1250></iframe>".
-code() -> case wf:q(<<"room">>) of undefined  -> "n2o";
-                                    Code -> wf:to_list(Code) end.
-
-body() ->
-    wf:update(heading,#b{id=heading,body="Review: " ++ code()}),
-    wf:update(logout,#button{id=logout, body="Logout " ++ wf:user(), postback=logout}),
-    [ #span{id=upload},#button { id=send, body= <<"Chat">>, postback=chat, source=[message] } ].
-
+main() -> [].
+code() -> case get(topic) of undefined -> "lobby";
+                                  Code -> wf:to_list(Code) end.
 event(init) ->
     Room = code(),
-    wf:update(upload,#upload{id=upload}),
-    [ event({client,{E#entry.from,E#entry.media}}) || E <- kvs:entries(kvs:get(feed,{room,Room}),entry,10) ];
+    wf:update(logout,  #button { id=logout,  body="Logout "  ++ wf:user(),        postback=logout }),
+    wf:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat   }),
+    wf:update(heading, #b      { id=heading, body="Review: " ++ Room}),
+    wf:update(upload,  #upload { id=upload   }),
+    [ event({client,{E#entry.from,E#entry.media}})
+      || E <- kvs:entries(kvs:get(feed,{room,Room}),entry,10) ];
 
 event(logout) ->
     wf:logout(),
@@ -35,23 +23,17 @@ event(logout) ->
 event(chat) ->
     User = wf:user(),
     Message = wf:q(message),
-    wf:info(?MODULE,"Chat pressed: ~p~n",[Message]),
     Room = code(),
+    wf:info(?MODULE,"Chat pressed: ~p ~p~n",[Room,self()]),
     kvs:add(#entry{id=kvs:next_id("entry",1),from=wf:user(),feed_id={room,Room},media=Message}),
-    Msg = emqttd_message:make("n2o", 0, "n2o", term_to_binary(#client{data={User,Message}})),
+    Msg = emqttd_message:make(Room, 0, Room, term_to_binary(#client{data={User,Message}})),
     self() ! {deliver, Msg};
 
 event(#client{data={User,Message}}) ->
-     wf:info(?MODULE,"Client Delivery: ~p~n",[Message]),
      wf:wire(#jq{target=message,method=[focus,select]}),
      HTML = wf:to_list(Message),
-     wf:info(?MODULE,"HTML: ~tp~n",[HTML]),
      DTL = #dtl{file="message",app=review,bindings=[{user,User},{color,"gray"},{message,HTML}]},
      wf:insert_top(history, wf:jse(wf:render(DTL)));
-
-event(#bin{data=Data}) ->
-    wf:info(?MODULE,"Binary Delivered ~p~n",[Data]),
-    #bin{data = "SERVER"};
 
 event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     wf:info(?MODULE,"FTP Delivered ~p~n",[Data]),

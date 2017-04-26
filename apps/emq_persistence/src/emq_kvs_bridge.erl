@@ -31,7 +31,9 @@ on_client_disconnected(Reason, _Client = #mqtt_client{client_id = ClientId}, _En
 on_client_subscribe(ClientId, Username, TopicTable, _Env) ->
     io:format("client(~s/~s) will subscribe: ~p~n", [Username, ClientId, TopicTable]),
     Name = binary_to_list(ClientId),
-    n2o_cx:context(#cx{module=index,formatter=bert,params=[]}),
+    BinTopic = element(1,hd(TopicTable)),
+    put(topic,BinTopic),
+    n2o_cx:context(#cx{module=route:select(BinTopic),formatter=bert,params=[]}),
     case n2o_nitrogen:info({init,<<>>},[],?CTX) of
          {reply, {binary, M}, _, #cx{}} ->
              Msg = emqttd_message:make(Name, 0, Name, M),
@@ -49,7 +51,7 @@ on_session_created(ClientId, Username, _Env) ->
     io:format("session(~s/~s) created.", [ClientId, Username]).
 
 on_session_subscribed(ClientId, Username, {Topic, Opts}, _Env) ->
-    io:format("session(~s/~s) subscribed: ~p~n", [Username, ClientId, {Topic, Opts}]),
+    io:format("session(~s/~p) subscribed: ~p~n", [Username, self(), {Topic, Opts}]),
     {ok, {Topic, Opts}}.
 
 on_session_unsubscribed(ClientId, Username, {Topic, Opts}, _Env) ->
@@ -67,7 +69,7 @@ on_message_publish(Message = #mqtt_message{topic = Topic, from = {ClientId,_}, p
     {ok, Message}.
 
 on_message_delivered(ClientId, Username, Message = #mqtt_message{topic = Topic, payload = Payload}, _Env) ->
-    io:format("delivered to client(~p): ~p~n", [Username, ClientId]),
+    io:format("DELIVER to client(~p): ~p~n", [ClientId, self()]),
     Name = binary_to_list(ClientId),
     case n2o_proto:info(binary_to_term(Payload),[],?CTX) of
          {reply, {binary, M}, R, #cx{}} ->
@@ -75,10 +77,9 @@ on_message_delivered(ClientId, Username, Message = #mqtt_message{topic = Topic, 
                    {io,_,_} -> Msg = emqttd_message:make(Name, 0, Name, M),
                                io:format("IO ~p Message: ~p Pid: ~p~n",[ClientId, [], self()]),
                                self() ! {deliver, Msg},
-                               ok;
-                          _ -> ok end;
-                          _ -> ok end,
-    {ok, Message}.
+                               {ok, Message};
+                          _ -> {ok, Message} end;
+                          _ -> {ok, Message} end.
 
 on_message_acked(ClientId, Username, Message, _Env) ->
     io:format("client(~s/~s) acked: ~s~n", [Username, ClientId, emqttd_message:format(Message)]),
