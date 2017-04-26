@@ -7,7 +7,9 @@
 main() -> [].
 
 event(init) ->
-    wf:update(loginButton, #button { id=loginButton, body="Login",postback=login,source=[user,pass]});
+    wf:update(loginButton, #button { id=loginButton,
+                                     body="Login",
+                                     postback=login,source=[user,pass]});
 
 event(login) ->
     User = case wf:q(user) of <<>> -> "anonymous";

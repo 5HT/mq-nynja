@@ -25,21 +25,24 @@ event(chat) ->
     Message = wf:q(message),
     Room = code(),
     wf:info(?MODULE,"Chat pressed: ~p ~p~n",[Room,self()]),
-    kvs:add(#entry{id=kvs:next_id("entry",1),from=wf:user(),feed_id={room,Room},media=Message}),
+    kvs:add(#entry{id=kvs:next_id("entry",1),
+                   from=wf:user(),feed_id={room,Room},media=Message}),
     Msg = emqttd_message:make(Room, 0, Room, term_to_binary(#client{data={User,Message}})),
     self() ! {deliver, Msg};
 
 event(#client{data={User,Message}}) ->
      wf:wire(#jq{target=message,method=[focus,select]}),
      HTML = wf:to_list(Message),
-     DTL = #dtl{file="message",app=review,bindings=[{user,User},{color,"gray"},{message,HTML}]},
+     DTL = #dtl{file="message",
+                app=review,
+                bindings=[{user,User},{color,"gray"},{message,HTML}]},
      wf:insert_top(history, wf:jse(wf:render(DTL)));
 
 event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     wf:info(?MODULE,"FTP Delivered ~p~n",[Data]),
     Name = hd(lists:reverse(string:tokens(wf:to_list(Filename),"/"))),
-    erlang:put(message,wf:render(#link{href=iolist_to_binary(["/static/",Sid,"/",wf:url_encode(Name)]),body=Name})),
-    wf:info(?MODULE,"Message ~p~n",[wf:q(message)]),
+    erlang:put(message,
+    wf:render(#link{href=iolist_to_binary(["/spa/",Sid,"/",wf:url_encode(Name)]),body=Name})),
     event(chat);
 
 event(Event) ->

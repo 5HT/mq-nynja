@@ -4,13 +4,18 @@ MQTT Messaging Server
 Features
 --------
 
-* EMQ version 2.1.1
-* MAD compatible
+* EMQ Version 2.1.1 MQTT Protocol 5
+* MAD Compatible
+* N2O Bridge as EMQ Plugin
+* N2O Review Application
 
 Setup
 -----
 
 ```
+$ curl -fsSL https://raw.github.com/synrc/mad/master/mad > mad \
+              && chmod +x mad \
+              && sudo cp /usr/local/bin
 $ mad dep com rep
 Configuration: [{emq_dashboard,
                     [{listeners_dash,

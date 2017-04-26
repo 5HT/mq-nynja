@@ -1,6 +1,6 @@
 {application, emq_persistence,
  [
-  {description, "Synrc KVS for MQTT"},
+  {description, "N2O over MQTT Bridge"},
   {vsn, "1.1.2"},
   {registered, []},
   {applications, [

@@ -26,13 +26,17 @@ var ws = {
         mqtt.send(message);
     } };
 
-mqtt.onConnectionLost = function (o) { console.log("connection lost: " + o.errorMessage); };
-mqtt.onMessageArrived = function (m) {
-    var BERT = m.payloadBytes.buffer.slice(m.payloadBytes.byteOffset,
+function MQTT_start() {
+   mqtt.onConnectionLost = function (o) { console.log("connection lost: " + o.errorMessage); };
+   mqtt.onMessageArrived = function (m) {
+       var BERT = m.payloadBytes.buffer.slice(m.payloadBytes.byteOffset,
                m.payloadBytes.byteOffset+m.payloadBytes.length);
-    try { erlang = dec(BERT);
+       try { erlang = dec(BERT);
           console.log(utf8_dec(erlang.v[1].v));
           for (var i=0;i<$bert.protos.length;i++) {
              p = $bert.protos[i]; if (p.on(erlang, p.do).status == "ok") return; }
-    } catch (e) { console.log(e); } };
-mqtt.connect(options);
+       } catch (e) { console.log(e); } };
+   mqtt.connect(options);
+}
+
+MQTT_start();
