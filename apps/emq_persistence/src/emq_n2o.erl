@@ -30,16 +30,16 @@ on_client_disconnected(Reason, _Client = #mqtt_client{client_id = ClientId}, _En
 
 on_client_subscribe(ClientId, Username, TopicTable, _Env) ->
     io:format("client(~s/~s) will subscribe: ~p~n", [Username, ClientId, TopicTable]),
-    Name = binary_to_list(ClientId),
+    Name = binary_to_list(iolist_to_binary(ClientId)),
     BinTopic = element(1,hd(TopicTable)),
     put(topic,BinTopic),
+    wf:actions([]),
     n2o_cx:context(#cx{module=route:select(BinTopic),formatter=bert,params=[]}),
     case n2o_nitrogen:info({init,<<>>},[],?CTX) of
          {reply, {binary, M}, _, #cx{}} ->
              Msg = emqttd_message:make(Name, 0, Name, M),
-             io:format("N2O ~p Message: ~p Pid: ~p~n",[ClientId, [], self()]),
-             self() ! {deliver, Msg},
-             ok;
+             io:format("N2O ~p Message: ~p Pid: ~p~n",[ClientId, binary_to_term(M), self()]),
+             self() ! {deliver, Msg};
          _ -> skip end,
     {ok, TopicTable}.
 
@@ -74,8 +74,8 @@ on_message_delivered(ClientId, Username, Message = #mqtt_message{topic = Topic, 
     case n2o_proto:info(binary_to_term(Payload),[],?CTX) of
          {reply, {binary, M}, R, #cx{}} ->
               case binary_to_term(M) of
-                   {io,_,_} -> Msg = emqttd_message:make(Name, 0, Name, M),
-                               io:format("IO ~p Message: ~p Pid: ~p~n",[ClientId, [], self()]),
+                   {io,X,_} -> Msg = emqttd_message:make(Name, 0, Name, M),
+                               io:format("IO ~p Message: ~p Pid: ~p~n",[ClientId, X, self()]),
                                self() ! {deliver, Msg},
                                {ok, Message};
                           _ -> {ok, Message} end;

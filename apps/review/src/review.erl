@@ -8,7 +8,8 @@ main(A)    -> mad:main(A).
 start()    -> start(normal,[]).
 start(_,_) -> supervisor:start_link({local,review},review,[]).
 stop(_)    -> ok.
-init([])   -> kvs:join(), {ok, {{one_for_one, 5, 10}, [spec()]}}.
+init([])   -> application:set_env(n2o,session,n2o_session), kvs:join(),
+              {ok, {{one_for_one, 5, 10}, [spec()]}}.
 spec()     -> ranch:child_spec(http, 100, ranch_tcp, port(), cowboy_protocol, env()).
 env()      -> [ { env, [ { dispatch, points() } ] } ].
 static()   ->   { dir, "apps/review/priv", mime() }.
