@@ -17,7 +17,6 @@ event(login) ->
                               E -> wf:to_list(E) end,
     wf:user(User),
     wf:info(?MODULE,"User: ~p",[wf:user()]),
-    wf:redirect("index.htm?room="++wf:to_list(wf:q(pass))),
-    ok;
+    wf:redirect("index.htm?room="++wf:to_list(wf:q(pass)));
 
 event(_) -> [].

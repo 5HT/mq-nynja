@@ -3,8 +3,8 @@
 
 select(Topic) ->
     [Module,Room] = case string:tokens(binary_to_list(Topic),"_") of
-         [M,D] -> [M,D];
-           [M] -> [M,"lobby"];
+         [M,R] -> [M,R];
+           [R] -> ["index",R];
             [] -> ["index","lobby"] end, select(Module,Room).
 
 select("index",Room) -> index;
