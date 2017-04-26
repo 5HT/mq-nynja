@@ -1,5 +1,5 @@
-MQTT Messaging Server
-=====================
+N2O over MQTT using EMQ Broker
+==============================
 
 Features
 --------
