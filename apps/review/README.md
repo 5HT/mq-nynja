@@ -8,9 +8,11 @@ Motivation
 
 Prepare N2O protocol federation to commercial use on top of MQTT protocol.
 Minimize and remove all features, duplicated by MQTT pubsub broker.
-Provide EMQ extension that immediately introduce N2O protocol to MQTT traffic.
-Create snigle Erlang eco-system for Enterprise Protocol Federation and establish
-solid CORBA, WS, XMPP replacement, ready fo high-speed IoT applications.
+Provide EMQ extension that immediately introduce N2O protocol and
+application to connected MQTT devices. Create single Erlang eco-system
+for Enterprise Protocol Federation and establish
+solid CORBA-, WS-, XMPP-replacement, ready for high-speed,
+low-latency IoT applications.
 
 Run
 ---
