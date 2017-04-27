@@ -35,7 +35,7 @@ on_client_subscribe(ClientId, Username, TopicTable, _Env) ->
     put(topic,BinTopic),
     wf:actions([]),
     n2o_cx:context(#cx{module=route:select(BinTopic),formatter=bert,params=[]}),
-    case n2o_nitrogen:info({init,<<>>},[],?CTX) of
+    case n2o_proto:info({init,<<>>},[],?CTX) of
          {reply, {binary, M}, _, #cx{}} ->
              Msg = emqttd_message:make(Name, 0, Name, M),
              io:format("N2O ~p~n Message: ~p Pid: ~p~n",[ClientId, binary_to_term(M), self()]),
