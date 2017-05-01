@@ -93,19 +93,19 @@ start_servers(Sup) ->
     [start_server(Sup, Server) || Server <- Servers].
 
 start_server(_Sup, {Name, F}) when is_function(F) ->
-    ?PRINT("~s is starting...", [Name]),
-    F(),
-    ?PRINT_MSG("[ok]~n");
+%    ?PRINT("~s is starting...", [Name]),
+    F(),ok;
+%    ?PRINT_MSG("[ok]~n");
 
 start_server(Sup, {Name, Server}) ->
-    ?PRINT("~s is starting...", [Name]),
-    start_child(Sup, Server),
-    ?PRINT_MSG("[ok]~n");
+%    ?PRINT("~s is starting...", [Name]),
+    start_child(Sup, Server), ok;
+%    ?PRINT_MSG("[ok]~n");
 
 start_server(Sup, {Name, Server, Opts}) ->
-    ?PRINT("~s is starting...", [ Name]),
-    start_child(Sup, Server, Opts),
-    ?PRINT_MSG("[ok]~n").
+%    ?PRINT("~s is starting...", [ Name]),
+    start_child(Sup, Server, Opts), ok.
+%    ?PRINT_MSG("[ok]~n").
 
 start_child(Sup, {supervisor, Module}) ->
     supervisor:start_child(Sup, supervisor_spec(Module));
