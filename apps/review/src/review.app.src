@@ -3,7 +3,7 @@
   {description, "N2O Review Application"},
   {vsn, "3.4"},
   {registered, []},
-  {applications, [kernel, stdlib, n2o, kvs]},
+  {applications, [kernel, stdlib, kvs]},
   {mod, { review, []}},
   {env, []}
  ]}.

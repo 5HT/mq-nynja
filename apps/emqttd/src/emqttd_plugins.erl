@@ -102,6 +102,7 @@ list() ->
 plugin(CfgFile) ->
     AppName = app_name(CfgFile),
     %{ok, Attrs} = application:get_all_key(AppName),
+    io:format("Plugin: ~p~n",[AppName]),
     {_,_,Attrs} = mad_repl:load_config(AppName),
     Ver = proplists:get_value(vsn, Attrs, "0"),
     Descr = proplists:get_value(description, Attrs, ""),

@@ -1,22 +1,20 @@
 -module(login).
 -compile(export_all).
 -include_lib("kvs/include/feed.hrl").
+-include_lib("n2o/include/n2o.hrl").
 -include_lib("nitro/include/nitro.hrl").
--include_lib("n2o/include/wf.hrl").
-
-main() -> [].
 
 event(init) ->
-    wf:update(loginButton, #button { id=loginButton,
-                                     body="Login",
-                                     postback=login,source=[user,pass]});
+    nitro:update(loginButton,
+          #button { id=loginButton, body="Login",
+                    postback=login,source=[user,pass]});
 
 event(login) ->
-    User = case wf:q(user) of <<>> -> "anonymous";
-                              undefined -> "anonymous";
-                              E -> wf:to_list(E) end,
-    wf:user(User),
-    wf:info(?MODULE,"User: ~p",[wf:user()]),
-    wf:redirect("index.htm?room="++wf:to_list(wf:q(pass)));
+    User = case n2o:q(user) of undefined -> "anonymous";
+                              E -> nitro:to_list(E) end,
+    n2o:user(User),
+    io:format("User: ~p",[n2o:user()]),
+    nitro:redirect("index.htm?room="++nitro:to_list(n2o:q(pass)));
 
 event(_) -> [].
+main()   -> [].
