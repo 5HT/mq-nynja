@@ -68,7 +68,8 @@ Applications:  [kernel,stdlib,gproc,lager_syslog,pbkdf2,asn1,fs,ranch,mnesia,
                 compiler,inets,crypto,syntax_tools,xmerl,gen_logger,esockd,
                 cowlib,goldrush,public_key,lager,ssl,cowboy,mochiweb,emqttd,
                 erlydtl,kvs,mad,emqttc,nitro,rest,sh,syslog,review]
-Erlang/OTP 19 [erts-8.3] [source] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:false] [dtrace]
+Erlang/OTP 19 [erts-8.3] [source] [64-bit] [smp:4:4]
+              [async-threads:10] [hipe] [kernel-poll:false] [dtrace]
 
 Eshell V8.3  (abort with ^G)
 starting emqttd on node 'nonode@nohost'
