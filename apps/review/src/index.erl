@@ -44,7 +44,7 @@ event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     event(chat);
 
 event(logout) -> nitro:redirect("login.htm");
-event(Event)  -> lager:info("Event: ~p", [Event]).
+event(Event)  -> io:format("Event: ~p", [Event]).
 
 main() -> [].
 code() -> case get(topic) of undefined -> "lobby";
