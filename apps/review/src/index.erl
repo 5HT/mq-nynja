@@ -18,13 +18,17 @@ event(chat) ->
     User = n2o:user(),
     Message = n2o:q(message),
     Room = code(),
+    #cx{session=ClientId} = get(context),
     io:format("Chat pressed: ~p ~p~n",[Room,self()]),
     kvs:add(#entry{id=kvs:next_id("entry",1),
                    from=n2o:user(),feed_id={room,Room},media=Message}),
-    Msg = emqttd_message:make(Room, 0, Room, term_to_binary(#client{data={User,Message}})),
-    self() ! {deliver, Msg};
+    Msg = emqttd_message:make(ClientId, 2, iolist_to_binary(Room), term_to_binary(#client{data={User,Message}})),
+    emqttd:publish(Msg),
+    nitro:wire("console.log('CHAT');"),
+    ok2;
 
 event(#client{data={User,Message}}) ->
+     io:format("INDEX CLIENT~n"),
      nitro:wire(#jq{target=message,method=[focus,select]}),
      HTML = nitro:to_list(Message),
      DTL = #dtl{file="message",
@@ -34,13 +38,13 @@ event(#client{data={User,Message}}) ->
 
 event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     io:format("FTP Delivered ~p~n",[Data]),
-    Name = hd(lists:reverse(string:tokens(wf:to_list(Filename),"/"))),
+    Name = hd(lists:reverse(string:tokens(nitro:to_list(Filename),"/"))),
     erlang:put(message,
     nitro:render(#link{href=iolist_to_binary(["/spa/",Sid,"/",nitro_conv:url_encode(Name)]),body=Name})),
     event(chat);
 
 event(logout) -> nitro:redirect("login.htm");
-event(Event)  -> io:format("Event: ~p", [Event]).
+event(Event)  -> lager:info("Event: ~p", [Event]).
 
 main() -> [].
 code() -> case get(topic) of undefined -> "lobby";

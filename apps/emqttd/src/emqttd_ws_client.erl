@@ -235,7 +235,7 @@ handle_info({'EXIT', Pid, Reason}, State = #wsclient_state{proto_state = ProtoSt
     end;
 
 handle_info(Info, State) ->
-    ?WSLOG(error, "Unexpected Info: ~p", [Info], State),
+    ?WSLOG(error, "Unexpected Info2: ~p", [Info], State),
     {noreply, State, hibernate}.
 
 terminate(Reason, #wsclient_state{proto_state = ProtoState, keepalive = KeepAlive}) ->

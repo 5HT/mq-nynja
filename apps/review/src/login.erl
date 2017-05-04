@@ -1,4 +1,5 @@
 -module(login).
+-compile({parse_transform, lager_transform}).
 -compile(export_all).
 -include_lib("kvs/include/feed.hrl").
 -include_lib("n2o/include/n2o.hrl").
@@ -13,7 +14,7 @@ event(login) ->
     User = case n2o:q(user) of undefined -> "anonymous";
                               E -> nitro:to_list(E) end,
     n2o:user(User),
-    io:format("User: ~p",[n2o:user()]),
+    lager:info("User: ~p",[n2o:user()]),
     nitro:redirect("index.htm?room="++nitro:to_list(n2o:q(pass)));
 
 event(_) -> [].
