@@ -7,6 +7,6 @@
                emq_dashboard_route,emq_dashboard_session,emq_dashboard_subscription,
                emq_dashboard_sup,emq_dashboard_topic,emq_dashboard_user]},
     {registered, [emq_dashboard_sup]},
-    {applications, [kernel,stdlib,mnesia]},
+    {applications, [kernel,stdlib,mnesia,emqttd]},
     {mod, {emq_dashboard_app, []}}
 ]}.
