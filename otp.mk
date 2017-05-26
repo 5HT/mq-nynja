@@ -20,6 +20,8 @@ compile:
 	mad plan
 $(RUN_DIR) $(LOG_DIR):
 	mkdir -p $(RUN_DIR) & mkdir -p $(LOG_DIR)
+attach:
+	to_erl $(RUN_DIR)/
 console: .applist
 	ERL_LIBS=$(ERL_LIBS) erl +pc unicode $(ERL_ARGS) -eval '[application:start(A) || A <- $(shell cat .applist)]'
 start: $(RUN_DIR) $(LOG_DIR) .applist

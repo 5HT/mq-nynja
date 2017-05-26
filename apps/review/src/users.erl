@@ -1,5 +1,6 @@
 -module(users).
 -behaviour(rest).
+-compile(export_all).
 -compile({parse_transform, rest}).
 -include_lib("kvs/include/user.hrl").
 -export([init/0, populate/1, exists/1, get/0, get/1, post/1, delete/1]).
@@ -18,3 +19,7 @@ delete(Id)           -> ets:delete(users, wf:to_list(Id)).
 post(#user{} = User) -> ets:insert(users, User), true;
 post(Data)           -> post(from_json(Data, #user{})), true.
 init_users()         -> users:init(), users:populate(?USERS).
+
+ok() -> 12.
+
+

@@ -3,7 +3,7 @@
     {vsn, "2.1.1"},
     {modules, []},
     {registered, [emqttd_sup]},
-    {applications, [kernel,stdlib,asn1,public_key,ssl,gproc,lager,esockd,mochiweb,lager_syslog,pbkdf2]},
+    {applications, [kernel,stdlib,asn1,public_key,ssl,gproc,lager,esockd,mochiweb,pbkdf2]},
     {env, []},
     {mod, {emqttd_app, []}},
     {maintainers, ["Maxim Sokhatsky <maxim@synrc.com>"]},

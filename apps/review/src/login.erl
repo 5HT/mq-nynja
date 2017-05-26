@@ -11,11 +11,12 @@ event(init) ->
                     postback=login,source=[user,pass]});
 
 event(login) ->
-    User = case n2o:q(user) of undefined -> "anonymous";
-                              E -> nitro:to_list(E) end,
+    User = nitro:to_list(n2o:q(user)),
+    Room = nitro:to_list(n2o:q(pass)),
     n2o:user(User),
-    lager:info("User: ~p",[n2o:user()]),
-    nitro:redirect("index.htm?room="++nitro:to_list(n2o:q(pass)));
+    lager:info("User: ~p Pass: ~p~n",[n2o:user(),Room]),
+    n2o:cache(room,Room),
+    nitro:redirect("index.htm?room="++Room);
 
 event(_) -> [].
 main()   -> [].
