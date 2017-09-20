@@ -12,10 +12,12 @@ Features
 Setup
 -----
 
-```
+```console
 $ curl -fsSL https://raw.github.com/synrc/mad/master/mad > mad \
               && chmod +x mad \
-              && sudo cp mad /usr/local/bin
+              && sudo cp /usr/local/bin
+$ git clone https://github.com/voxoz/mq
+$ cd mq
 $ mad dep com rep
 Configuration: [{n2o,
                     [{port,8000},
