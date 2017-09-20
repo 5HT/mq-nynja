@@ -15,7 +15,7 @@ Setup
 ```
 $ curl -fsSL https://raw.github.com/synrc/mad/master/mad > mad \
               && chmod +x mad \
-              && sudo cp /usr/local/bin
+              && sudo cp mad /usr/local/bin
 $ mad dep com rep
 Configuration: [{n2o,
                     [{port,8000},
