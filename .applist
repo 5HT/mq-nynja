@@ -1,1 +1,1 @@
-[kernel,stdlib,fs,ranch,asn1,gproc,pbkdf2,gen_logger,mnesia,inets,crypto,xmerl,compiler,syntax_tools,cowlib,esockd,goldrush,public_key,kvs,lager,ssl,mochiweb,emqttd,n2o,active,cowboy,emq_dashboard,emqttc,erlydtl,mad,nitro,review,sh]
+[kernel,stdlib,fs,ranch,gproc,pbkdf2,asn1,gen_logger,compiler,inets,crypto,syntax_tools,xmerl,mnesia,syn,cowlib,esockd,goldrush,public_key,kvs,lager,ssl,mochiweb,emqttd,n2o,active,bpe,cowboy,emq_dashboard,emqttc,erlydtl,mad,nitro,review,sh]
