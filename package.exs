@@ -16,7 +16,7 @@ defmodule N2O.Mixfile do
   defp package do
     [files: ["apps", "LICENSE", "README.md", "rebar.config", "sys.config", "vm.args"],
      licenses: ["APACHE"],
-     maintainers: ["Andy Martemyanov", "Namdak Tonpa"],
+     maintainers: ["Namdak Tonpa"],
      name: :mq,
      links: %{"GitHub" => "https://github.com/voxoz/mq"}]
   end
