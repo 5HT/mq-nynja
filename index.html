@@ -1,28 +1,10 @@
-<html>
-
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="" />
-    <meta name="author" content="Maxim Sokhatsky" />
-    <title>MQ</title>
-    <link rel="stylesheet" href="https://synrc.space/synrc.css" />
-</head>
-
-<body>
-
-<nav>
-    <a href='https://n2o.space'>SPACE</a>
-    <a href='https://mq.n2o.space' style="background:#ededed;">MQ</a>
-</nav>
-
-<header>
-    <a href="https://github.com/enterprizing/mq"><img src="https://synrc.space/images/Synrc Neo.svg?v=1"></a>
+<html><head><meta charset="utf-8" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="" /><meta name="author" content="Maxim Sokhatsky" /><title>MQ</title><link rel="stylesheet" href="https://synrc.space/synrc.css" /></head><body><nav>
+    <a href="https://n2o.space">SPACE</a>
+    <a href="https://mq.n2o.space" style="background:#ededed;">MQ</a>
+</nav><header>
+    <a href="https://github.com/enterprizing/mq"><img src="https://synrc.space/images/Synrc Neo.svg?v=1" /></a>
     <h1>MQ</h1>
-</header>
-
-<aside>
+</header><aside>
     <article>
         <section>
             <h3>SYNOPSIS</h3>
@@ -32,10 +14,9 @@
             </div>
         </section>
     </article>
-</aside>
-<main>
+</aside><main>
     <section>
-        <a name=dash><h3>N2O as EMQ plugin</h3></a>
+        <a name="dash"></a><h3>N2O as EMQ plugin</h3>
         <p>
             The N2O over MQTT bridge is a drop-in plugin for EMQ broker.
             After starting the server you should enable N2O over MQTT bridge EMQ plugin on plugin page
@@ -44,7 +25,7 @@
         </p>
         <figure>
             <figcaption>Picture 4. N2O 4.5 MQTT as EMQ Plugin</figcaption>
-            <img src="https://n2o.space/img/emq.png">
+            <img src="https://n2o.space/img/emq.png" />
         </figure>
         <p>
         The nice thing about EMQ is that it enables session introspection for N2O connections.
@@ -58,14 +39,14 @@
 
 
     <section>
-        <a><h3>MQTT versions</h3></a>
+        <a></a><h3>MQTT versions</h3>
         <p>
             EMQ is the latest software that has robust iOS and Android MQTT client libraries, just have a look at
             <a href="https://github.com/emqtt">https://github.com/emqtt</a> Github organization.
         </p>
         <figure>
             <figcaption>Picture 6. MQTT 3.1.1 vs MQTT 5.0</figcaption>
-            <img src="https://n2o.space/img/mqtt-v5.svg">
+            <img src="https://n2o.space/img/mqtt-v5.svg" />
         </figure>
         <p>
             We made a compatible EMQ plugin and N2O Review sample application with built-in EMQ with minimal dependencies.
@@ -76,9 +57,9 @@
             <code>
 $ brew install erlang
 $ curl -fsSL https://raw.github.com/synrc/mad/master/mad > mad \
-            && chmod +x mad \
-            && sudo cp mad /usr/local/bin
-$ git clone git://github.com/voxoz/mq && cd mq
+            &#38;&#38; chmod +x mad \
+            &#38;&#38; sudo cp mad /usr/local/bin
+$ git clone git://github.com/voxoz/mq &#38;&#38; cd mq
 $ time mad dep com
 Writing /apps/review/ebin/review.app
 OK
@@ -154,20 +135,10 @@ emqttd 2.1.1 is running now
         </figure>
     </section>
     <section>
-        <a name=plugin><h3>Related Documents</h3></a>
+        <a name="plugin"></a><h3>Related Documents</h3>
         <div>
-        <ul>
-           <li><a href="https://n2o.dev/articles/n2o.htm">N2O: PROTOCOL</a></li>
-           <li><a href="https://n2o.dev/articles/web.htm">N2O: SERVER</a></li>
-           <li><a href="https://n2o.dev/articles/history.htm">N2O: HISTORY</a></li>
-           <li><a href="https://5ht.co/spawnproc.htm">N2O: PRIVATBANK</a></li>
-        </ul></div>
+        <ul><li><a href="https://n2o.dev/articles/n2o.htm">N2O: PROTOCOL</a></li><li><a href="https://n2o.dev/articles/web.htm">N2O: SERVER</a></li><li><a href="https://n2o.dev/articles/history.htm">N2O: HISTORY</a></li><li><a href="https://5ht.co/spawnproc.htm">N2O: PRIVATBANK</a></li></ul></div>
     </section>
-</main>
-
-<footer>
+</main><footer>
     Made with <span class="heart">❤</span> for EMQ and N2O
-</footer>
-
-</body>
-</html>
+</footer></body></html>
